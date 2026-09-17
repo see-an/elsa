@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kamu ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10; /* Agar kartu teks tetap di depan hujan foto */
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #4a4a4a;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .gif-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #ff4d6d;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #btn-mau {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #btn-mau:hover {
+            transform: scale(1.1);
+        }
+
+        #btn-engga {
+            background-color: #778da9;
+            color: white;
+            position: absolute;
+            left: 55%;
+        }
+
+        /* Gaya untuk Foto yang Berterbangan */
+        .hujan-foto {
+            position: absolute;
+            top: -100px;
+            width: 70px; /* Ukuran foto yang berterbangan */
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            pointer-events: none; /* Agar tidak mengganggu klik layar */
+            animation: meluncur linear forwards;
+        }
+
+        @keyframes meluncur {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ELEMENT AUDIO (MUSIK) -->
+    <audio id="musik-romantis" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="main-card">
+        <div class="gif-container">
+            <!-- PENTING: Ganti 'ayang.jpg' dengan nama file foto cewekmu untuk foto utama -->
+            <img id="gif-image" src="cewe.jpg" alt="Foto Pacar">
+        </div>
+        <h1 id="heading">Hai Kamu... ✨</h1>
+        <p id="pesan">Aku mau jujur, belakangan ini aku kepikiran kamu terus. Kamu mau gak jadi pacarku?</p>
+        
+        <div class="btn-group">
+            <button id="btn-mau" onclick="diterima()">Mau</button>
+            <button id="btn-engga" onmouseover="hindari()" onclick="hindari()">Engga</button>
+        </div>
+    </div>
+
+    <script>
+        const btnEngga = document.getElementById('btn-engga');
+        const heading = document.getElementById('heading');
+        const pesan = document.getElementById('pesan');
+        const btnGroup = document.querySelector('.btn-group');
+        const musik = document.getElementById('musik-romantis');
+
+        function hindari() {
+            const x = Math.random() * (window.innerWidth - btnEngga.offsetWidth - 40);
+            const y = Math.random() * (window.innerHeight - btnEngga.offsetHeight - 40);
+            
+            btnEngga.style.position = 'fixed';
+            btnEngga.style.left = x + 'px';
+            btnEngga.style.top = y + 'px';
+        }
+
+        function diterima() {
+            heading.innerHTML = "Yeeeey! I Love You ❤️";
+            pesan.innerHTML = "Makasih ya udah mau nerima aku. Nanti kita jalan ya! 🥰";
+            
+            // Sembunyikan tombol
+            btnGroup.style.display = 'none';
+
+            // Putar musik
+            musik.play().catch(error => console.log("Autoplay diblokir"));
+
+            // JALANKAN HUJAN FOTO BANYAK BANGET
+            buatHujanFoto();
+        }
+
+        // Fungsi membuat duplikasi foto cewekmu bermunculan
+        function buatHujanFoto() {
+            const jumlahFoto = 50; // Kamu bisa menambah atau mengurangi jumlah fotonya di sini
+
+            for (let i = 0; i < jumlahFoto; i++) {
+                setTimeout(() => {
+                    const foto = document.createElement('img');
+                    
+                    // PENTING: Pastikan ini sama dengan nama file foto cewekmu!
+                    foto.src = 'cewe.jpg'; 
+                    foto.classList.add('hujan-foto');
+
+                    // Mengatur posisi acak di layar (kiri-kanan)
+                    foto.style.left = Math.random() * 100 + 'vw';
+                    
+                    // Mengatur ukuran acak biar bervariasi (estetik)
+                    const ukuran = Math.random() * 40 + 50; // Antara 50px sampai 90px
+                    foto.style.width = ukuran + 'px';
+                    foto.style.height = ukuran + 'px';
+
+                    // Mengatur kecepatan jatuh acak
+                    foto.style.animationDuration = Math.random() * 2 + 3 + 's'; // Antara 3 sampai 5 detik
+
+                    document.body.appendChild(foto);
+
+                    // Hapus elemen foto setelah animasinya selesai agar laptop tidak lemot
+                    setTimeout(() => {
+                        foto.remove();
+                    }, 5000);
+
+                }, i * 150); // Foto akan muncul bergantian setiap 150 milidetik
+            }
+        }
+    </script>
+</body>
+</html>
